@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  RefreshControl,
   StyleSheet,
   Text,
   TextInput,
@@ -14,9 +15,11 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   loadMoreUsers,
   loadUsers,
+  refreshUsers,
   selectFilteredUsers,
   selectHasMoreUsers,
   selectIsLoadingMoreUsers,
+  selectIsRefreshingUsers,
   selectUsersError,
   selectUsersSearchQuery,
   selectUsersStatus,
@@ -34,6 +37,7 @@ function UserListScreen({ navigation }: Props) {
   const searchQuery = useAppSelector(selectUsersSearchQuery);
   const hasMore = useAppSelector(selectHasMoreUsers);
   const isLoadingMore = useAppSelector(selectIsLoadingMoreUsers);
+  const isRefreshing = useAppSelector(selectIsRefreshingUsers);
 
   useEffect(() => {
     dispatch(loadUsers());
@@ -45,6 +49,10 @@ function UserListScreen({ navigation }: Props) {
     }
     dispatch(loadMoreUsers());
   }, [dispatch, hasMore, isLoadingMore, status]);
+
+  const handleRefresh = useCallback(() => {
+    dispatch(refreshUsers());
+  }, [dispatch]);
 
   const renderUser = ({ item }: { item: User }) => (
     <Pressable
@@ -100,6 +108,13 @@ function UserListScreen({ navigation }: Props) {
         keyboardShouldPersistTaps="handled"
         onEndReachedThreshold={0.4}
         onEndReached={handleLoadMore}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+            tintColor="#2563eb"
+          />
+        }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.helperText}>No users match your search.</Text>
