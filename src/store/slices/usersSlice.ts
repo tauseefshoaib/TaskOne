@@ -259,4 +259,7 @@ export const selectFilteredUsers = (state: RootState) => {
   );
 };
 
+export const selectUserById = (state: RootState, userId: number) =>
+  state.users.users.find(user => user.id === userId);
+
 export default usersSlice.reducer;
