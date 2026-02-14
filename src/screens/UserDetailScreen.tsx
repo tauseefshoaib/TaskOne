@@ -1,12 +1,26 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation';
 
-function UserDetailScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'UserDetails'>;
+
+function UserDetailScreen({ route }: Props) {
   return (
-    <View>
-      <Text>User Details Screen</Text>
+    <View style={styles.container}>
+      <Text>user details screen</Text>
+      <Text>User ID: {route.params.userId}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+});
 
 export default UserDetailScreen;

@@ -1,4 +1,4 @@
 export type RootStackParamList = {
   UserList: undefined;
-  UserDetail: { userId: number };
+  UserDetails: { userId: number };
 };
