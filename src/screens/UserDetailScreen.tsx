@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { DetailInfoCard } from '../components';
 import type { RootStackParamList } from '../navigation';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -78,25 +79,10 @@ function UserDetailScreen({ route }: Props) {
       <Text style={styles.name}>{user.name}</Text>
       <Text style={styles.username}>@{user.username}</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Email</Text>
-        <Text style={styles.value}>{user.email}</Text>
-      </View>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Phone</Text>
-        <Text style={styles.value}>{user.phone}</Text>
-      </View>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Address</Text>
-        <Text style={styles.value}>{formattedAddress}</Text>
-      </View>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Website</Text>
-        <Text style={styles.value}>{user.website}</Text>
-      </View>
+      <DetailInfoCard label="Email" value={user.email} />
+      <DetailInfoCard label="Phone" value={user.phone} />
+      <DetailInfoCard label="Address" value={formattedAddress} />
+      <DetailInfoCard label="Website" value={user.website} />
 
       {selectedUserStatus === 'loading' ? (
         <Text style={styles.helperText}>Refreshing details...</Text>
@@ -129,24 +115,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4b5563',
     marginBottom: 6,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    padding: 14,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    gap: 4,
-  },
-  label: {
-    fontSize: 13,
-    color: '#6b7280',
-    fontWeight: '600',
-    textTransform: 'uppercase',
-  },
-  value: {
-    fontSize: 16,
-    color: '#111827',
   },
   helperText: {
     fontSize: 14,

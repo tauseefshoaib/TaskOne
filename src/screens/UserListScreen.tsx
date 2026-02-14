@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { UserListItem } from '../components';
 import type { RootStackParamList } from '../navigation';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -25,7 +26,6 @@ import {
   selectUsersStatus,
   setSearchQuery,
 } from '../store/slices/usersSlice';
-import type { User } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UserList'>;
 
@@ -54,15 +54,11 @@ function UserListScreen({ navigation }: Props) {
     dispatch(refreshUsers());
   }, [dispatch]);
 
-  const renderUser = ({ item }: { item: User }) => (
-    <Pressable
-      style={styles.userCard}
-      onPress={() => navigation.navigate('UserDetails', { userId: item.id })}
-    >
-      <Text style={styles.userName}>{item.name}</Text>
-      <Text style={styles.userEmail}>{item.email}</Text>
-      <Text style={styles.userEmail}>{item.website}</Text>
-    </Pressable>
+  const renderUser = ({ item }: { item: (typeof users)[number] }) => (
+    <UserListItem
+      user={item}
+      onPress={userId => navigation.navigate('UserDetails', { userId })}
+    />
   );
 
   if (status === 'loading' && users.length === 0) {
@@ -160,24 +156,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginBottom: 12,
     color: '#111827',
-  },
-  userCard: {
-    backgroundColor: '#ffffff',
-    padding: 14,
-    borderRadius: 12,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-  },
-  userName: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  userEmail: {
-    fontSize: 20,
-    color: '#4b5563',
   },
   helperText: {
     fontSize: 15,
