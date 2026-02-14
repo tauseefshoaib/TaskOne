@@ -1,2 +1,4 @@
 export { apiClient } from './apiClient';
-export { fetchUsers } from './usersApi';
+export { ApiRequestError, toApiRequestError } from './apiError';
+export { fetchUserById, fetchUsers } from './usersApi';
+export type { FetchUsersParams, UsersPageResult } from './usersApi';
